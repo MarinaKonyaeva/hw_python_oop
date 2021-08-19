@@ -38,7 +38,8 @@ class CaloriesCalculator(Calculator):
         available_today = self.limit - self.get_today_stats()
         if self.get_today_stats() < self.limit:
             return (f'Сегодня можно съесть что-нибудь ещё, '
-                    f'но с общей калорийностью не более {available_today} кКал')
+                    f'но с общей калорийностью не более '
+                    f'{available_today} кКал')
         return 'Хватит есть!'
 
 
@@ -47,11 +48,12 @@ class CashCalculator(Calculator):
     EURO_RATE = 86.00
 
     def get_today_cash_remained(self, currency):
-        currency_rate_dict = {'rub': 1, 'usd': self.USD_RATE, 
+        currency_rate_dict = {'rub': 1, 'usd': self.USD_RATE,
                               'eur': self.EURO_RATE}
         currency_name_dict = {'rub': 'руб', 'usd': 'USD', 'eur': 'Euro'}
         self.available_today = self.limit - self.get_today_stats()
-        self.change_currency = self.available_today / currency_rate_dict[currency]
+        self.change_currency = (self.available_today /
+                                currency_rate_dict[currency])
         self.formated_answer = abs(round(self.change_currency, 2))
         if self.get_today_stats() < self.limit:
             return (f'На сегодня осталось '
