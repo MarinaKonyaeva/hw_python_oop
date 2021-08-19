@@ -1,15 +1,16 @@
 import datetime as dt
 date_format = '%d.%m.%Y'
 
+
 class Record:
-    def __init__(self, comment, amount, date=None): 
+    def __init__(self, comment, amount, date=None):
         self.amount = amount
         self.comment = comment
-        
+
         if date is not None:
             self.date = dt.datetime.strptime(date, date_format).date()
         else:
-            self.date = dt.datetime.today().date()     
+            self.date = dt.datetime.today().date()
 
 
 class Calculator:
@@ -17,23 +18,24 @@ class Calculator:
         self.limit = limit
         self.records = []
 
-    def add_record(self, record: Record): 
+    def add_record(self, record: Record):
         self.records.append(record)
-        
+ 
     def get_today_stats(self):
         today = dt.datetime.today().date()
-        return sum(record.amount for record in self.records if record.date == today)
+        return sum(record.amount for record in self.records
+                   if record.date == today)
 
     def get_week_stats(self):
         today = dt.datetime.today().date()
         week_ago = today - dt.timedelta(days=7)
         return sum(record.amount for record in self.records if week_ago <= record.date <= today)
-        
+
 
 class CaloriesCalculator(Calculator):
     def get_calories_remained(self):
         available_today = self.limit - self.get_today_stats()
-        if self.get_today_stats() <  self.limit:
+        if self.get_today_stats() < self.limit:
             return (f'Сегодня можно съесть что-нибудь ещё, но с общей калорийностью не более {available_today} кКал')
         return 'Хватит есть!'
 
@@ -48,7 +50,7 @@ class CashCalculator(Calculator):
         self.available_today = self.limit - self.get_today_stats()
         self.format_answer = abs(round((self.available_today) / currency_rate_dict[currency], 2))
         """Считает доступный остаток в запрошенной валюте, округляя до 2-х знаков после запятой."""
-        if self.get_today_stats() <  self.limit:
+        if self.get_today_stats() < self.limit:
             return (f'На сегодня осталось {self.format_answer} {currency_name_dict[currency]}')
         elif self.get_today_stats() == self.limit:
             return 'Денег нет, держись'
