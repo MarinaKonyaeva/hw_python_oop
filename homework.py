@@ -48,12 +48,11 @@ class CashCalculator(Calculator):
     EURO_RATE = 86.00
 
     def get_today_cash_remained(self, currency):
-        currency_rate_dict = {'rub': 1, 'usd': self.USD_RATE,
+        rate_dict = {'rub': 1, 'usd': self.USD_RATE,
                               'eur': self.EURO_RATE}
         currency_name_dict = {'rub': 'руб', 'usd': 'USD', 'eur': 'Euro'}
         self.available_today = self.limit - self.get_today_stats()
-        self.change_currency = (self.available_today /
-                                currency_rate_dict[currency])
+        self.change_currency = (self.available_today / rate_dict[currency])
         self.formated_answer = abs(round(self.change_currency, 2))
         if self.get_today_stats() < self.limit:
             return (f'На сегодня осталось '
