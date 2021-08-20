@@ -38,7 +38,6 @@ class Calculator:
         return self.limit - self.get_today_stats()
 
 
-
 class CaloriesCalculator(Calculator):
     def get_calories_remained(self):
         available_today = self.get_today_remained()
