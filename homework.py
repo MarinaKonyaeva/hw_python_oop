@@ -1,7 +1,7 @@
 import datetime as dt
 
 
-date_format = '%d.%m.%Y'
+DATE_FORMAT = '%d.%m.%Y'
 
 
 class Record:
@@ -10,7 +10,7 @@ class Record:
         self.comment = comment
 
         if date is not None:
-            self.date = dt.datetime.strptime(date, date_format).date()
+            self.date = dt.datetime.strptime(date, DATE_FORMAT).date()
         else:
             self.date = dt.date.today()
 
@@ -41,7 +41,7 @@ class Calculator:
 class CaloriesCalculator(Calculator):
     def get_calories_remained(self):
         available_today = self.get_today_remained()
-        if self.get_today_remained() > 0:
+        if available_today > 0:
             return ('Сегодня можно съесть что-нибудь ещё, '
                     'но с общей калорийностью не более '
                     f'{available_today} кКал')
@@ -56,13 +56,15 @@ class CashCalculator(Calculator):
         rate_dict = {'rub': 1, 'usd': self.USD_RATE,
                      'eur': self.EURO_RATE}
         currency_name_dict = {'rub': 'руб', 'usd': 'USD', 'eur': 'Euro'}
-        change_currency = (self.get_today_remained() / rate_dict[currency])
+        #Тут тоже нужно занести результат в переменную, а затем с неё работать
+        available_today = self.get_today_remained()
+        change_currency = (available_today / rate_dict[currency])
         formated_answer = abs(round(change_currency, 2))
         currency_name = currency_name_dict[currency]
-        if self.get_today_remained() > 0:
+        if available_today > 0:
             return ('На сегодня осталось '
                     f'{formated_answer} {currency_name}')
-        elif self.get_today_stats() == self.limit:
+        elif available_today == 0:
             return 'Денег нет, держись'
-        return (f'Денег нет, держись: твой долг - '
+        return ('Денег нет, держись: твой долг - '
                 f'{formated_answer} {currency_name}')
