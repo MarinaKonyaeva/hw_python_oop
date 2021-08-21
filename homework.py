@@ -56,7 +56,6 @@ class CashCalculator(Calculator):
         rate_dict = {'rub': 1, 'usd': self.USD_RATE,
                      'eur': self.EURO_RATE}
         currency_name_dict = {'rub': 'руб', 'usd': 'USD', 'eur': 'Euro'}
-        #Тут тоже нужно занести результат в переменную, а затем с неё работать
         available_today = self.get_today_remained()
         change_currency = (available_today / rate_dict[currency])
         formated_answer = abs(round(change_currency, 2))
